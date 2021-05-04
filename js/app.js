@@ -13,33 +13,43 @@ if (!interactionCountState) {
   counterInput.setAttribute("value", counterInputValue);
 }
 
+/**
+ * Sets the value attribute of the input and updates localStorage for the counter
+ *
+ * @param {string} value
+ * @param {integer} count
+ *
+ * @returns null
+ */
+function counterUpdate(value, count) {
+  counterInput.setAttribute(value, counterInputValue);
+  trackerStorage.setItem(count, counterInputValue);
+}
+
 counterGroup.addEventListener("click", (e) => {
   if (e.target.tagName === "BUTTON") {
     const button = e.target;
     button.preventDefault;
     const action = button.getAttribute("data-type");
-    if (action === "plus" && counterInputValue < maxValue) {
-      counterInputValue++;
-      counterInput.setAttribute("value", counterInputValue);
-      trackerStorage.setItem("interactionCount", counterInputValue);
-    } else if (action === "minus" && counterInputValue > minValue) {
-      counterInputValue--;
-      counterInput.setAttribute("value", counterInputValue);
-      trackerStorage.setItem("interactionCount", counterInputValue);
-    }
-    // } else if (action === "reset") {
-    //   counterInputValue = 0;
-    //   counterInput.setAttribute("value", counterInputValue);
-    //   trackerStorage.setItem("interactionCount", counterInputValue);
-    // }
-
     const counterActions = {
+      plus: () => {
+        if (counterInputValue < maxValue) {
+          counterInputValue++;
+          counterUpdate("value", "interactionCount");
+        }
+      },
+      minus: () => {
+        if (counterInputValue > minValue) {
+          counterInputValue--;
+          counterUpdate("value", "interactionCount");
+        }
+      },
       reset: () => {
         counterInputValue = 0;
-        counterInput.setAttribute("value", counterInputValue);
-        trackerStorage.setItem("interactionCount", counterInputValue);
+        counterUpdate("value", "interactionCount");
       },
     };
-    counterActions[action];
+
+    counterActions[action]();
   }
 });
