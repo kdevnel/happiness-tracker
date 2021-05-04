@@ -4,3 +4,7 @@ body {
   font-family: "Varela Round", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 62.5%;
 }
+
+button > * {
+  pointer-events: none;
+}
